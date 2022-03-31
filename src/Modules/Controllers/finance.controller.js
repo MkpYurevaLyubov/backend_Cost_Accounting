@@ -19,3 +19,13 @@ module.exports.createFinance = (req, res) => {
     res.send(finance);
   });
 };
+
+module.exports.deleteFinance = (req, res) => {
+  const { id } = req.query;
+  if (!id) return res.status(422).send("Error! Id value not correct");
+
+  Finance.findByIdAndDelete(id, (err, result) => {
+    if (err) return res.status(404).send('Finance not found');
+    res.send(result);
+  });
+};
