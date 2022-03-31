@@ -6,3 +6,16 @@ module.exports.allFinance = (req, res) => {
     res.send(result);
   });
 };
+
+module.exports.createFinance = (req, res) => {
+  const { body } = req;
+  if (!body.hasOwnProperty("nameCompany")) return res.status(404).send("Error! Company not found");
+  if (!body.hasOwnProperty("money")) return res.status(404).send("Error! Money not found");
+  if (typeof body.money !== "number") return res.status(422).send("Error! Money value not correct");
+
+  const finance = new Finance(body);
+
+  finance.save(() => {
+    res.send(finance);
+  });
+};
